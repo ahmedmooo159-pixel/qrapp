@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+  <title>صفحتي الشخصية | My Personal Bio Links</title>
+  <meta name="description" content="كل الروابط الشخصية، وسائل التواصل الاجتماعي، والمشاريع في مكان واحد بتصميم عصري وأنيق مع تخزين سحابي على Firebase." />
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="صفحتي الشخصية | My Personal Links" />
+  <meta property="og:description" content="كل روابطي وحساباتي في مكان واحد." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600" />
+
+  <!-- Google Fonts: Alexandria (Arabic) & Outfit (Latin) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- QRCode.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+  <!-- Animated Ambient Glow Background -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="glow-orb glow-orb-3"></div>
+  </div>
+
+  <!-- Top Action Toolbar -->
+  <header class="top-toolbar">
+    <!-- QR Code & Share Profile Buttons -->
+    <div class="toolbar-group">
+      <button id="qrBtn" class="tool-btn" title="عرض رمز QR / Show QR Code" aria-label="عرض رمز QR">
+        <i class="fas fa-qrcode"></i>
+      </button>
+      <button id="shareBtn" class="tool-btn" title="مشاركة الصفحة / Share Profile" aria-label="مشاركة الصفحة">
+        <i class="fas fa-share-nodes"></i>
+      </button>
+    </div>
+
+    <!-- Cloud Status Badge & Toolbar Actions -->
+    <div class="toolbar-group">
+      <div id="cloudStatus" class="cloud-status-badge" title="حالة المزامنة مع Firebase">
+        <i class="fas fa-cloud"></i>
+        <span id="cloudStatusText">جاري الفحص...</span>
+      </div>
+      <button id="editModalBtn" class="tool-btn" title="تعديل البيانات وإعدادات Firebase" aria-label="تعديل البيانات">
+        <i class="fas fa-pen-to-square"></i>
+      </button>
+      <button id="themeToggleBtn" class="tool-btn" title="تبديل الوضع الليلي / الفاتح" aria-label="تبديل المظهر">
+        <i id="themeIcon" class="fas fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-wrapper">
+    <!-- Profile Card Section -->
+    <section class="profile-card" id="profileSection">
+      <!-- Avatar with glowing animation ring -->
+      <div class="avatar-wrapper">
+        <div class="avatar-glow-ring"></div>
+        <img id="profileAvatar" class="avatar-img" src="" alt="Personal Avatar" />
+      </div>
+
+      <!-- Name & Verification Badge -->
+      <div class="profile-name-container">
+        <h1 id="profileName" class="profile-name">...</h1>
+        <i class="fas fa-circle-check verified-badge" title="حساب موثق"></i>
+      </div>
+
+      <!-- Professional Title / Role -->
+      <p id="profileTitle" class="profile-title">...</p>
+
+      <!-- Status Pill Badge -->
+      <div id="statusBadge" class="status-badge">
+        <span class="status-dot"></span>
+        <span id="statusText">...</span>
+      </div>
+
+      <!-- Short Bio Description -->
+      <p id="profileBio" class="profile-bio">...</p>
+
+      <!-- Location Info -->
+      <div id="locationWrapper" class="profile-location">
+        <i class="fas fa-location-dot"></i>
+        <span id="profileLocation">...</span>
+      </div>
+    </section>
+
+    <!-- Quick Mini Social Icons Row -->
+    <nav class="social-icons-row" id="socialBar" aria-label="روابط سريعة"></nav>
+
+    <!-- Interactive QR Code Trigger Card -->
+    <div class="qr-featured-card" id="featuredQrCard">
+      <div class="qr-featured-info">
+        <div class="qr-mini-icon"><i class="fas fa-qrcode"></i></div>
+        <div>
+          <h2 class="qr-featured-title">رمز QR لصفحتي</h2>
+          <p class="qr-featured-desc">امسح الكود أو اضغط للمشاركة والتحميل بجودة عالية</p>
+        </div>
+      </div>
+      <button class="qr-featured-action-btn" id="openQrStudioCardBtn" title="فتح استوديو QR">
+        <i class="fas fa-arrow-up-right-from-square"></i> فتح
+      </button>
+    </div>
+
+    <!-- Main Dynamic Links Section -->
+    <section class="links-section" id="linksContainer" aria-label="قائمة الروابط الرئيسية"></section>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+      <p id="footerText">...</p>
+      <button id="quickEditFooterBtn" class="footer-btn-edit">
+        <i class="fas fa-sliders"></i> تخصيص الروابط وربط Firebase
+      </button>
+    </footer>
+  </main>
+
+  <!-- QR Code Studio & Share Modal -->
+  <div class="modal-backdrop" id="qrModal" role="dialog" aria-modal="true">
+    <div class="modal-box qr-studio-box">
+      <div class="modal-header">
+        <h2 class="modal-title"><i class="fas fa-qrcode" style="color: var(--accent-color);"></i> استوديو رمز QR والمشاركة</h2>
+        <button class="modal-close" id="closeQrModal" aria-label="إغلاق">&times;</button>
+      </div>
+
+      <div class="qr-container">
+        <!-- Live QR Card Preview -->
+        <div class="qr-preview-badge" id="qrBadgeCard">
+          <div class="qr-badge-header">
+            <img id="qrBadgeAvatar" class="qr-badge-avatar" src="" alt="Avatar" />
+            <div>
+              <h3 id="qrBadgeName" class="qr-badge-title">...</h3>
+              <span id="qrBadgeSubtitle" class="qr-badge-sub">امسح للوصول إلى صفحتي</span>
+            </div>
+          </div>
+          <div class="qr-canvas-wrapper" id="qrCanvas"></div>
+          <p class="qr-badge-url" id="qrBadgeUrlText">...</p>
+        </div>
+
+        <!-- Customization Controls -->
+        <div class="qr-customizer-panel">
+          <div class="qr-control-row">
+            <div class="qr-control-col">
+              <label class="form-label" for="qrTextTarget"><i class="fas fa-link"></i> الرابط المضمن</label>
+              <input type="text" id="qrTextTarget" class="form-input" placeholder="https://..." />
+            </div>
+          </div>
+
+          <div class="qr-control-row" style="margin-top: 0.5rem; display: flex; gap: 0.5rem; align-items: center;">
+            <div style="flex: 1;">
+              <label class="form-label" for="qrDarkColor">لون النقاط</label>
+              <input type="color" id="qrDarkColor" value="#0f172a" class="color-picker-input" />
+            </div>
+            <div style="flex: 1;">
+              <label class="form-label" for="qrLightColor">لون الخلفية</label>
+              <input type="color" id="qrLightColor" value="#ffffff" class="color-picker-input" />
+            </div>
+            <div style="flex: 1.2;">
+              <label class="form-label" for="qrPresetSelect">ثيم جاهز</label>
+              <select id="qrPresetSelect" class="form-input" style="padding: 0.4rem;">
+                <option value="classic">كلاسيكي أسود</option>
+                <option value="indigo">نيون إنديجو</option>
+                <option value="emerald">زمردي أنيق</option>
+                <option value="sunset">غروب دافئ</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="qr-actions-grid">
+          <button id="directShareQrBtn" class="btn-primary" title="مشاركة عبر واتساب، تيليجرام وغيرها">
+            <i class="fas fa-share-nodes"></i> مشاركة سريعة
+          </button>
+          <button id="downloadQrBadgeBtn" class="btn-secondary" title="تحميل بطاقة QR كاملة بدقة عالية">
+            <i class="fas fa-id-badge"></i> تحميل البطاقة
+          </button>
+          <button id="downloadQrOnlyBtn" class="btn-secondary" title="تحميل رمز QR فقط كصورة">
+            <i class="fas fa-download"></i> رمز QR فقط
+          </button>
+          <button id="copyProfileLinkBtn" class="btn-secondary" title="نسخ الرابط المباشر">
+            <i class="fas fa-copy"></i> نسخ الرابط
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Visual Customizer & Firebase Setup Modal -->
+  <div class="modal-backdrop" id="editorModal" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 class="modal-title"><i class="fas fa-sliders"></i> لوحة التحكم والبيانات</h2>
+        <button class="modal-close" id="closeEditorModal" aria-label="إغلاق">&times;</button>
+      </div>
+      
+      <!-- Tab Bar: Personal Info vs Firebase Setup -->
+      <div class="modal-tabs">
+        <button type="button" class="tab-btn active" id="tabInfoBtn">
+          <i class="fas fa-user-pen"></i> البيانات والروابط
+        </button>
+        <button type="button" class="tab-btn" id="tabFirebaseBtn">
+          <i class="fas fa-fire" style="color: #f59e0b;"></i> إعدادات Firebase
+        </button>
+      </div>
+
+      <!-- Tab 1: Profile & Links -->
+      <form id="editorForm" onsubmit="event.preventDefault();">
+        <div id="tabInfoContent">
+          <div class="form-group">
+            <label class="form-label" for="editName">الاسم الكامل / Name</label>
+            <input type="text" id="editName" class="form-input" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editTitle">المسمى الوظيفي / Title</label>
+            <input type="text" id="editTitle" class="form-input" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editBio">الوصف الشخصي / Bio</label>
+            <textarea id="editBio" class="form-textarea" rows="2"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editAvatar">الصورة الشخصية / Avatar Photo</label>
+            <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.4rem;">
+              <input type="text" id="editAvatar" class="form-input" placeholder="https://... أو avatar.jpg" />
+              <label for="avatarFileInput" class="btn-secondary" style="padding: 0.65rem 0.85rem; font-size: 0.8rem; cursor: pointer; white-space: nowrap;">
+                <i class="fas fa-upload"></i> من الجهاز
+              </label>
+              <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" />
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-top: 0.4rem;">
+              <img id="avatarEditPreview" src="" alt="معاينة" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-color); display: none;" />
+              <span id="avatarUploadHint" style="font-size: 0.75rem; color: var(--text-muted);">يمكنك وضع رابط مباشر أو اختيار صورة من هاتفك/كمبيوترك</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editLocation">الموقع / المدينة</label>
+            <input type="text" id="editLocation" class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editStatus">نص الحالة / Status</label>
+            <input type="text" id="editStatus" class="form-input" />
+          </div>
+
+          <!-- Mini Social Bar Editor -->
+          <div class="form-section-title">
+            <i class="fas fa-share-nodes"></i> الروابط المصغرة (Social Bar)
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="editGithub">رابط GitHub</label>
+            <input type="url" id="editGithub" class="form-input" placeholder="https://github.com/..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="editLinkedin">رابط LinkedIn</label>
+            <input type="url" id="editLinkedin" class="form-input" placeholder="https://linkedin.com/in/..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="editWhatsapp">رابط أو رقم WhatsApp</label>
+            <input type="text" id="editWhatsapp" class="form-input" placeholder="https://wa.me/2010... أو رقمك مع كود الدولة" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="editEmail">البريد الإلكتروني</label>
+            <input type="email" id="editEmail" class="form-input" placeholder="you@example.com" />
+          </div>
+
+          <!-- Main Links Editor -->
+          <div class="form-section-title">
+            <i class="fas fa-link"></i> البطاقات والروابط الرئيسية
+          </div>
+
+          <div id="editableLinksList"></div>
+
+          <button type="button" id="addNewLinkBtn" class="btn-secondary" style="width: 100%; margin-bottom: 1.25rem;">
+            <i class="fas fa-plus"></i> إضافة رابط جديد
+          </button>
+        </div>
+
+        <!-- Tab 2: Firebase Connection Settings -->
+        <div id="tabFirebaseContent" style="display: none;">
+          <div class="firebase-info-box">
+            <i class="fas fa-circle-info"></i>
+            <div>
+              <strong>ربط التخزين السحابي بـ Firebase Firestore:</strong>
+              <p style="font-size: 0.8rem; margin-top: 0.25rem;">عند حفظ بياناتك في Firebase، سيتم تحديث الصفحة فورياً وبشكل حي لأي شخص يفتح الرابط!</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="fbApiKey">Firebase API Key</label>
+            <input type="text" id="fbApiKey" class="form-input" placeholder="AIzaSy..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="fbProjectId">Firebase Project ID</label>
+            <input type="text" id="fbProjectId" class="form-input" placeholder="my-bio-project" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="fbAppId">Firebase App ID</label>
+            <input type="text" id="fbAppId" class="form-input" placeholder="1:123456789:web:abcdef" />
+          </div>
+
+          <div style="margin-top: 1rem;">
+            <button type="button" id="testFirebaseBtn" class="btn-secondary" style="width: 100%;">
+              <i class="fas fa-vial"></i> اختبار الاتصال بـ Firebase
+            </button>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="qr-actions" style="margin-top: 1.5rem;">
+          <button type="button" id="saveVisualChangesBtn" class="btn-primary">
+            <i class="fas fa-cloud-arrow-up"></i> حفظ ومزامنة (Firebase)
+          </button>
+          <button type="button" id="exportConfigBtn" class="btn-secondary" title="نسخ الكود كملف">
+            <i class="fas fa-copy"></i> نسخ الكود
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Load Local Fallback Data -->
+  <script src="config.js"></script>
+
+  <!-- Load Application Logic as ES Module -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>

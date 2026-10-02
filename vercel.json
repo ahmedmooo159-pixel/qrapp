@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "name": "personal-bio-links",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+}
